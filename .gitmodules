@@ -1,3 +1,6 @@
 [submodule "thirdparty/HIP-CPU"]
 	path = thirdparty/HIP-CPU
 	url = https://github.com/ROCm-Developer-Tools/HIP-CPU.git
+[submodule "thirdparty/HIPIFY"]
+	path = thirdparty/HIPIFY
+	url = git@github.com:ROCm/HIPIFY.git
