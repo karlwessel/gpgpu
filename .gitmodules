@@ -4,3 +4,6 @@
 [submodule "thirdparty/HIPIFY"]
 	path = thirdparty/HIPIFY
 	url = git@github.com:ROCm/HIPIFY.git
+[submodule "thirdparty/chipStar"]
+	path = thirdparty/chipStar
+	url = git@github.com:CHIP-SPV/chipStar.git
