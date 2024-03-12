@@ -8,7 +8,7 @@ example1cuda: saxpy.cu
 	nvcc saxpy.cu -o example1cuda
 
 example1chip: saxpy.cu
-	../thirdparty/chipStar/dist/bin/cuspvc saxpy.cu -o example1chip
+	../thirdparty/chipStar/install/bin/cuspvc saxpy.cu -o example1chip
 
 example1hip: $(hipfile)
 	g++ -I../thirdparty/HIP-CPU/include/ $(hipfile) -ltbb -o example1hip

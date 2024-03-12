@@ -21,13 +21,13 @@ Chipstar is included as a git submodule under `thirdparty/chipstar`. To build it
  ```
  git submodule init
  git submodule fetch
- cmake .. -DLLVM_CONFIG_BIN=/usr/bin/llvm-config -DCMAKE_INSTALL_PREFIX=../dist -DCHIP_BUILD_SAMPLES=OFF -DCHIP_BUILD_TESTS=OFF
+ cmake .. -DLLVM_CONFIG_BIN=/usr/bin/llvm-config -DCMAKE_INSTALL_PREFIX=../install -DCHIP_BUILD_SAMPLES=OFF -DCHIP_BUILD_TESTS=OFF
  make -j install
  ```
  
 # Compile
 Using the OpenCL based chipStar the samples can be compiled with
- `../thirdparty/chipStar/dist/bin/hipcc ./MatrixTranspose.cpp -o example1`.
+ `../thirdparty/chipStar/install/bin/hipcc ./MatrixTranspose.cpp -o example1`.
  
 Using the hardware independent HIP-CPU runtime samples can be compiled with
  `g++ -ltbb -I../thirdparty/HIP-CPU/include/ MatrixTranspose.cpp`.
