@@ -1,11 +1,8 @@
 Test project for SYCL
 
 # Setup
-- Install Intels OneAPI C++ compiler:
-   `pacman -S intel-oneapi-dpcpp-cpp`
-- if you want to run the examples without having to load the oneapi environment variables you need to register the oneapi opencl ICD: <https://github.com/KhronosGroup/OpenCL-ICD-Loader#registering-an-icd-on-linux>.
-  The path to the oneapi intel opencl should be 
-   `/opt/intel/oneapi/compiler/latest/linux/lib/x64/libintelocl.so`
+- Install Intels OneAPI C++ compiler and the runtime:
+   `pacman -S intel-oneapi-dpcpp-cpp intel-compute-runtime`
 
 # Compile
 To compile with SYCL support using OneAPI compiler first load environment with
