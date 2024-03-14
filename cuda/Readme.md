@@ -26,3 +26,6 @@ See readme for HIP examples `hip/Readme.md`.
 
 # Compile
 See the `Makefile` on how to convert cuda to HIP files and how to run them.
+
+# Execute
+For executing binaries compiled using chipStar see the Readme.md for hip examples.

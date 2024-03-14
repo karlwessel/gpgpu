@@ -34,6 +34,10 @@ Using the hardware independent HIP-CPU runtime samples can be compiled with
 
 Or just use the `Makefile`.
 
+# Execute
+To execute binaries compiled with chipStar on CPU-only devices you need to set the environment variable `CHIP_DEVICE_TYPE` accordingly
+ `export CHIP_DEVICE_TYPE=cpu`.
+
 # How to use without ROCm compatible hardware
 - Hardware independent - HIP-CPU: <https://github.com/ROCm/HIP-CPU>
 - Using OpenCL devices - chipStar: <https://github.com/CHIP-SPV/chipStar>
