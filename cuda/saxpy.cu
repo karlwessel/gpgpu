@@ -9,9 +9,14 @@ void saxpy(int n, float a, float *x, float *y)
   if (i < n) y[i] = a*x[i] + y[i];
 }
 
-int main(void)
+int main(int argc, const char** argv)
 {
-  int N = 1<<20;
+  int exponent = 20;
+  if (argc == 2) {
+    exponent = atoi(argv[1]);
+  }
+
+  int N = 1<<exponent;
   float *x, *y, *d_x, *d_y;
   x = (float*)malloc(N*sizeof(float));
   y = (float*)malloc(N*sizeof(float));
@@ -41,4 +46,6 @@ int main(void)
   cudaFree(d_y);
   free(x);
   free(y);
+
+  return maxError > 0.001;
 }
