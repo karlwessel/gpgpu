@@ -1,3 +1,12 @@
 example1
+example1chip
+example1hip
+example1cuda
 example2
 HelloOpenCL
+
+cuda/saxpy.cpp
+
+thirdparty/HIPIFYdist/
+thirdparty/HIPIFYbuild/
+thirdparty/build/
