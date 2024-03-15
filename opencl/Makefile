@@ -1,7 +1,7 @@
 all: HelloOpenCL saxpy
 
 saxpy : saxpy.cpp
-	g++ -Wall -Wextra -D CL_TARGET_OPENCL_VERSION=300 saxpy.cpp -o saxpy -lOpenCL
+	g++ -O3 -Wall -Wextra -D CL_TARGET_OPENCL_VERSION=300 saxpy.cpp -o saxpy -lOpenCL
 
 
 HelloOpenCL : main.c

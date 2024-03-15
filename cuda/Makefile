@@ -8,10 +8,10 @@ example1cuda: saxpy.cu
 	nvcc saxpy.cu -o example1cuda
 
 example1chip: saxpy.cu
-	../thirdparty/chipStar/install/bin/cuspvc saxpy.cu -o example1chip
+	../thirdparty/chipStar/install/bin/cuspvc -O3 saxpy.cu -o example1chip
 
 example1hip: $(hipfile)
-	g++ -I../thirdparty/HIP-CPU/include/ $(hipfile) -ltbb -o example1hip
+	g++ -O3 -I../thirdparty/HIP-CPU/include/ $(hipfile) -ltbb -o example1hip
 
 $(hipfile): saxpy.cu
 	../thirdparty/HIPIFYdist/bin/hipify-clang saxpy.cu --clang-resource-directory=$(clangdir) --hip-kernel-execution-syntax -o $(hipfile)
