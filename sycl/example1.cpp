@@ -1,3 +1,7 @@
+/*
+  Source: https://github.com/intel/llvm/blob/sycl/sycl/doc/GetStartedGuide.md#use-dpc-toolchain
+*/
+
 #include <sycl/sycl.hpp>
 
 int main() {

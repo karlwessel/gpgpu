@@ -1,3 +1,7 @@
+/*
+ Source: https://www.apress.com/gp/book/9781484255735
+*/
+
 #include <CL/sycl.hpp>
 #include <iostream>
 

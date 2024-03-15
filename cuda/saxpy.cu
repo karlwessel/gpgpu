@@ -1,3 +1,7 @@
+/*
+  Source: from https://developer.nvidia.com/blog/easy-introduction-cuda-c-and-c/
+*/
+
 #include <stdio.h>
 #include <math.h>
 #include <cuda_runtime.h>

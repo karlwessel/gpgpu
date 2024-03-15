@@ -1,3 +1,7 @@
+/*
+ Source: https://riptutorial.com/openmp
+*/
+
 #include <omp.h>
 #include <stdio.h>
 

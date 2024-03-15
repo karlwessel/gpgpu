@@ -1,4 +1,6 @@
 using LinearAlgebra
+# Source: https://github.com/JuliaGPU/OpenCL.jl
+
 using OpenCL
 
 const sum_kernel = "

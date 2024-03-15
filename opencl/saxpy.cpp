@@ -1,3 +1,7 @@
+/*
+ Source: https://github.com/Anteru/opencltutorial/tree/1e69b974b0fd5106a456f4a66697b37ba18e0427
+*/
+
 #include <cmath>
 #include <fstream>
 #include <iostream>
