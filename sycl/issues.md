@@ -1,6 +1,7 @@
 This is a list of issues and their state
 
 # Open
+- add saxpy example
 
 # Closed
 - rename main.cpp to example1.cpp
