@@ -54,8 +54,7 @@ md"""
 
 # ╔═╡ e1488b65-a2c0-4793-9e2a-3ee0c58eef35
 dfbase = let
-	basetimes = transform(groupby(df, [:binary]), [:time, :workload] => ((x, y) -> x .- minimum(x[y .< 18])) => :scaled)
-	
+	basetimes = transform(groupby(df, [:binary]), [:time] => (x -> x .- minimum(x)) => :scaled)	
 end
 
 # ╔═╡ fcf7bd29-dc31-4ae4-85bd-3e0cf33cc6e1
