@@ -1,9 +1,11 @@
 example1
 example1chip
-example1hip
-example1cuda
+saxpychip
+saxpyhip
+saxpycuda
 example2
 HelloOpenCL
+saxpy
 
 cuda/saxpy.cpp
 
