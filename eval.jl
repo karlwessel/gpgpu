@@ -4,6 +4,16 @@
 using Markdown
 using InteractiveUtils
 
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
+        el
+    end
+end
+
 # ╔═╡ f1bf7f1e-e1de-11ee-2b57-3bdfda648418
 using DataFrames
 
@@ -16,6 +26,9 @@ using CairoMakie
 # ╔═╡ 9665c8cd-2ecd-4047-a6e6-fb02de8688e7
 using CSV
 
+# ╔═╡ 30af8143-5778-4c53-8056-3e8afb59f56c
+using PlutoUI
+
 # ╔═╡ e8477d1b-a6a1-4929-b72a-bb64e26bdacb
 using Statistics
 
@@ -24,11 +37,31 @@ md"""
 # Saxpy benchmark results
 """
 
+# ╔═╡ 23e0d231-823a-4d8b-a751-f5f41feb9777
+@bind update PlutoUI.Button("Update results")
+
+# ╔═╡ 2587b7f3-4c11-47d4-a273-c9532c5b1e7b
+md"""
+# Remove initialization tail
+"""
+
 # ╔═╡ 9503b505-0479-4fdd-9892-db38fbc10b8a
 df = let
-	df = CSV.File("cuda/benchmark.csv", header=["binary", "workload", "time", "returncode"], comment="Command exited with non-zero status") |> DataFrame
+	update
+	df = CSV.File("benchmark.csv", header=["binary", "workload", "time", "returncode"], comment="Command exited with non-zero status") |> DataFrame
 	df.returncode[ismissing.(df.returncode)] .= 0
 	df
+end
+
+# ╔═╡ 4e989d13-47c3-41da-bab7-d38a6ff5b59b
+combine(groupby(df, [:binary]), :time => minimum => "init time in s")	
+
+# ╔═╡ 20b93878-09f3-4e8c-adc3-8154688b521f
+let
+	df = df[df.returncode .== 0, :]
+	draw(data(df) * mapping(:workload, :time) * mapping(color=:binary),
+		axis=(title="Total time", yscale = log10, limits=(nothing, (0.005, 100)))
+	)
 end
 
 # ╔═╡ 5aeaaeab-4198-4102-8f27-ccf73bb4c77b
@@ -39,19 +72,6 @@ let
 	)
 end
 
-# ╔═╡ 20b93878-09f3-4e8c-adc3-8154688b521f
-let
-	df = df[df.returncode .== 0, :]
-	draw(data(df) * mapping(:workload, :time) * mapping(color=:binary),
-		axis=(yscale = log10, limits=(nothing, (0.005, 100)))
-	)
-end
-
-# ╔═╡ 2587b7f3-4c11-47d4-a273-c9532c5b1e7b
-md"""
-# Remove initialization tail
-"""
-
 # ╔═╡ e1488b65-a2c0-4793-9e2a-3ee0c58eef35
 dfbase = let
 	basetimes = transform(groupby(df, [:binary]), [:time] => (x -> x .- minimum(x)) => :scaled)	
@@ -61,8 +81,10 @@ end
 let
 	df = dfbase[dfbase.returncode .== 0, :]
 	df = df[df.workload .> 17, :]
-	draw(data(df) * mapping(:workload, :scaled) * mapping(color=:binary),
-		axis=(yscale = log10, limits=(nothing, (0.005, 100)))
+	df = sort(df, :workload)
+	draw(data(df) * mapping(:workload, :scaled => "Kernel time in s") * mapping(color=:binary, marker=:binary) *
+		(visual(Scatter)),
+		axis=(title="Without initialization time", yscale = log10, limits=(nothing, (0.005, 100)))
 	)
 end
 
@@ -73,6 +95,7 @@ AlgebraOfGraphics = "cbdf2221-f076-402e-a563-3d30da359d67"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
@@ -80,6 +103,7 @@ AlgebraOfGraphics = "~0.6.18"
 CSV = "~0.10.13"
 CairoMakie = "~0.11.9"
 DataFrames = "~1.6.1"
+PlutoUI = "~0.7.58"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -88,7 +112,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.0-beta3"
 manifest_format = "2.0"
-project_hash = "89f1b1d5d8755086db4f70c60aa423ab90468a5b"
+project_hash = "01ad9bdd6530ce01e18c131225ac8bddf7a1c813"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -105,6 +129,12 @@ weakdeps = ["ChainRulesCore", "Test"]
 git-tree-sha1 = "222ee9e50b98f51b5d78feb93dd928880df35f06"
 uuid = "398f06c4-4d28-53ec-89ca-5b2656b7603d"
 version = "0.3.0"
+
+[[deps.AbstractPlutoDingetjes]]
+deps = ["Pkg"]
+git-tree-sha1 = "0f748c81756f2e5e6854298f11ad8b2dfae6911a"
+uuid = "6e696c72-6542-2067-7265-42206c756150"
+version = "1.3.0"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "2d9c9a55f9c93e8887ad391fbae72f8ef55e1177"
@@ -659,6 +689,24 @@ git-tree-sha1 = "f218fe3736ddf977e0e772bc9a586b2383da2685"
 uuid = "34004b35-14d8-5ef3-9330-4cdb6864b03a"
 version = "0.3.23"
 
+[[deps.Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "179267cfa5e712760cd43dcae385d7ea90cc25a4"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.5"
+
+[[deps.HypertextLiteral]]
+deps = ["Tricks"]
+git-tree-sha1 = "7134810b1afce04bbc1045ca1985fbe81ce17653"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.5"
+
+[[deps.IOCapture]]
+deps = ["Logging", "Random"]
+git-tree-sha1 = "8b72179abc660bfab5e28472e019392b97d0985c"
+uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
+version = "0.2.4"
+
 [[deps.ImageAxes]]
 deps = ["AxisArrays", "ImageBase", "ImageCore", "Reexport", "SimpleTraits"]
 git-tree-sha1 = "2e4520d67b0cef90865b3ef727594d2a58e0e1f8"
@@ -964,6 +1012,11 @@ version = "0.3.27"
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
+[[deps.MIMEs]]
+git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "0.1.4"
+
 [[deps.MKL_jll]]
 deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl"]
 git-tree-sha1 = "72dc3cf284559eb8f53aa593fe62cb33f83ed0c0"
@@ -1223,6 +1276,12 @@ deps = ["ColorSchemes", "Colors", "Dates", "PrecompileTools", "Printf", "Random"
 git-tree-sha1 = "7b1a9df27f072ac4c9c7cbe5efb198489258d1f5"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
 version = "1.4.1"
+
+[[deps.PlutoUI]]
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
+git-tree-sha1 = "71a22244e352aa8c5f0f2adde4150f62368a3f2e"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.58"
 
 [[deps.PolygonOps]]
 git-tree-sha1 = "77b3d3605fc1cd0b42d95eba87dfcd2bf67d5ff6"
@@ -1630,6 +1689,11 @@ weakdeps = ["Random", "Test"]
     [deps.TranscodingStreams.extensions]
     TestExt = ["Test", "Random"]
 
+[[deps.Tricks]]
+git-tree-sha1 = "eae1bb484cd63b36999ee58be2de6c178105112f"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.8"
+
 [[deps.TriplotBase]]
 git-tree-sha1 = "4d4ed7f294cda19382ff7de4c137d24d16adc89b"
 uuid = "981d1d27-644d-49a2-9326-4793e63143c3"
@@ -1639,6 +1703,11 @@ version = "0.1.0"
 git-tree-sha1 = "41d61b1c545b06279871ef1a4b5fcb2cac2191cd"
 uuid = "9d95972d-f1c8-5527-a6e0-b4b365fa01f6"
 version = "1.5.0"
+
+[[deps.URIs]]
+git-tree-sha1 = "67db6cc7b3821e19ebe75791a9dd19c9b1188f2b"
+uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
+version = "1.5.1"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
@@ -1815,13 +1884,16 @@ version = "3.5.0+0"
 # ╠═790dca31-b49a-45a6-b4eb-18009e067ca2
 # ╠═141e12c6-17b8-441b-8a1d-013d131643f5
 # ╠═9665c8cd-2ecd-4047-a6e6-fb02de8688e7
-# ╠═2974c906-0f39-4b3a-83b6-b649731f07ca
-# ╠═9503b505-0479-4fdd-9892-db38fbc10b8a
-# ╠═5aeaaeab-4198-4102-8f27-ccf73bb4c77b
+# ╠═30af8143-5778-4c53-8056-3e8afb59f56c
+# ╟─2974c906-0f39-4b3a-83b6-b649731f07ca
+# ╟─23e0d231-823a-4d8b-a751-f5f41feb9777
+# ╟─4e989d13-47c3-41da-bab7-d38a6ff5b59b
+# ╠═fcf7bd29-dc31-4ae4-85bd-3e0cf33cc6e1
 # ╠═20b93878-09f3-4e8c-adc3-8154688b521f
 # ╠═2587b7f3-4c11-47d4-a273-c9532c5b1e7b
+# ╠═9503b505-0479-4fdd-9892-db38fbc10b8a
+# ╠═5aeaaeab-4198-4102-8f27-ccf73bb4c77b
 # ╠═e8477d1b-a6a1-4929-b72a-bb64e26bdacb
 # ╠═e1488b65-a2c0-4793-9e2a-3ee0c58eef35
-# ╠═fcf7bd29-dc31-4ae4-85bd-3e0cf33cc6e1
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
