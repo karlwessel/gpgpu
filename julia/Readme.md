@@ -12,4 +12,4 @@ Instantiate the project environment:
 
 # Execute examples
 In the `julia` folder run
-`julia --project src/example1`.
+`julia --project src/example1.jl`.
