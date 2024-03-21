@@ -82,11 +82,11 @@ end
 # ╔═╡ fcf7bd29-dc31-4ae4-85bd-3e0cf33cc6e1
 let
 	df = dfbase[dfbase.returncode .== 0, :]
-	df = df[df.workload .> 17, :]
+	df = df[df.workload .> 20, :]
 	df = sort(df, :workload)
-	draw(data(df) * mapping(:workload, :scaled => "Kernel time in s") * mapping(color=:binary, marker=:binary) *
-		(visual(Scatter)),
-		axis=(title="Without initialization time", yscale = log10, limits=(nothing, (0.005, 100)))
+	draw(data(df) * mapping(:workload, :scaled => log10 => "Kernel time in s") * mapping(color=:binary, marker=:binary) *
+		(visual(Scatter) + linear(;interval=:confidence, npoints=10)),
+		axis=(title="Without initialization time",)
 	)
 end
 
