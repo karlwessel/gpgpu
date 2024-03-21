@@ -2,7 +2,7 @@
 
 format="%C %e %x"
 
-for binary in opencl/saxpy cuda/saxpychip cuda/saxpyhip
+for binary in sycl/saxpy.sh opencl/saxpy cuda/saxpychipl0 cuda/saxpychipcl cuda/saxpyhip
 do
 	echo "Testing $binary"
 	for i in $(seq 15 19);
@@ -12,7 +12,7 @@ do
 	done
 done
 
-for binary in juliaoneapi/scripts/saxpy.sh opencl/saxpy cuda/saxpychip cuda/saxpyhip
+for binary in sycl/saxpy.sh opencl/saxpy cuda/saxpychipl0 cuda/saxpychipcl cuda/saxpyhip
 do
 	echo "Testing $binary"
 	for i in $(seq 20 28);
@@ -22,7 +22,7 @@ do
 	done
 done
 
-for binary in juliaoneapi/scripts/saxpy.sh opencl/saxpy cuda/saxpychip
+for binary in sycl/saxpy.sh opencl/saxpy cuda/saxpychipl0 cuda/saxpychipcl
 do
 	echo "Testing $binary"
 	for i in $(seq 26 29);
