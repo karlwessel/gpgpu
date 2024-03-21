@@ -1,7 +1,7 @@
 
 %PHONY: benchmark
 
-benchmark: cuda/saxpychip cuda/saxpyhip opencl/saxpy sycl/saxpy
+benchmark: cuda/saxpychip cuda/saxpyhip opencl/saxpy sycl/saxpy openmp/saxpy
 	sh benchmark.sh
 
 cuda/saxpychip cuda/saxpyhip &: cuda/saxpy.cu
@@ -12,3 +12,6 @@ opencl/saxpy : opencl/saxpy.cpp
 
 sycl/saxpy : sycl/saxpy.cpp
 	make -C sycl saxpy
+
+openmp/saxpy : openmp/saxpy.cpp
+	make -C openmp saxpy
