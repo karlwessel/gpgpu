@@ -48,8 +48,9 @@ md"""
 # ╔═╡ 9503b505-0479-4fdd-9892-db38fbc10b8a
 df = let
 	update
-	df = CSV.File("benchmark.csv", header=["binary", "workload", "time", "returncode"], comment="Command exited with non-zero status") |> DataFrame
+	df = CSV.File("benchmark.csv", header=["binary", "workload", "time", "returncode"], comment="Command") |> DataFrame
 	df.returncode[ismissing.(df.returncode)] .= 0
+
 	df
 end
 
@@ -74,6 +75,7 @@ end
 
 # ╔═╡ e1488b65-a2c0-4793-9e2a-3ee0c58eef35
 dfbase = let
+	df = df[df.returncode .== 0, :]
 	basetimes = transform(groupby(df, [:binary]), [:time] => (x -> x .- minimum(x)) => :scaled)	
 end
 
