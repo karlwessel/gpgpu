@@ -13,8 +13,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Test OpenMP example
+    - name: autotools
       working-directory: ./openmp
       run: |
-        make
-        ./saxpy
+        autoconf
+        automake --add-missing
+    - name: configure
+      working-directory: ./openmp
+      run: ./configure
+    - name: make
+      working-directory: ./openmp
+      run: make
+    - name: make check
+      working-directory: ./openmp
+      run: make check
+    - name: make distcheck
+      working-directory: ./openmp
+      run: make distcheck
