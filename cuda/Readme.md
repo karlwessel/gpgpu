@@ -27,5 +27,13 @@ See readme for HIP examples `hip/Readme.md`.
 # Compile
 See the `Makefile` on how to convert cuda to HIP files and how to run them.
 
+## Compile and run on GWDG-HPC
+Before compilation on the HPC cluster the cuda module has to be loaded with
+ `module load cuda`
+
+The example can be executed on the interactive gpu partition with
+ `srun -p gpu-int ./saxpycuda`
+
+
 # Execute
 For executing binaries compiled using chipStar see the Readme.md for hip examples.
