@@ -13,9 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Switch to OpenMP example
-      run: cd openmp
-    - name: make
-      run: make
-    - name: Test saxpy
-      run: ./saxpy
+    - name: Test OpenMP example
+      working-directory: ./openmp
+      run: |
+        make
+        ./saxpy
