@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: install automake
-      run: apt-get install automake
+      run: sudo apt-get install automake
     - name: autotools
       working-directory: ./openmp
       run: |
