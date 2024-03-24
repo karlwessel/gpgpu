@@ -18,6 +18,7 @@ jobs:
     - name: autotools
       working-directory: ./openmp
       run: |
+        autoreconf --install
         autoconf
         automake --add-missing
     - name: configure
