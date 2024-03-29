@@ -11,9 +11,10 @@ AC_ARG_ENABLE([opencl],
     AS_HELP_STRING([--disable-opencl], [Disable feature OpenCL examples]))
 
 AS_IF([test "x$enable_opencl" != "xno"], [
-  AC_SEARCH_LIBS([clGetPlatformIDs], [OpenCL], [hasopencl=yes], [])
+  AC_SEARCH_LIBS([clGetPlatformIDs], [OpenCL], [opencllib=yes], [])
+  AC_CHECK_HEADERS([CL/cl.h], [openclheader=yes; break;])
 ])
-AM_CONDITIONAL([USE_OPENCL], [test "x$hasopencl" = "xyes"])
+AM_CONDITIONAL([USE_OPENCL], [test "x$openclheader" = "xyes"] && [test "x$opencllib" = "xyes"])
 
 AC_CONFIG_FILES([
 	Makefile])
