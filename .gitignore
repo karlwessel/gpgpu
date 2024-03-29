@@ -1,11 +1,34 @@
+example1opencl
 example1
+example1openmp
 example1chip
 saxpychip
 saxpyhip
 saxpycuda
+saxpyopencl
+saxpyopenmp
 example2
 HelloOpenCL
 saxpy
+
+*.o
+
+# autotools files
+Makefile.in
+compile
+install-sh
+missing
+test-driver
+aclocal.m4
+autom4te.cache
+configure*
+depcomp
+Makefile
+*.log
+*.trs
+config.*
+.deps
+.dirstamp
 
 cuda/saxpy.cpp
 
