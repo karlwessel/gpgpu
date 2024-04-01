@@ -30,15 +30,15 @@ ExternalProject_Add(hipify PREFIX thirdparty/HIPIFY
 						   BINARY_DIR thirdparty/HIPIFYbuild
 						   INSTALL_DIR thirdparty/HIPIFYdist)
 
+
+add_subdirectory(thirdparty/HIP-CPU)
 # define executable targets to be compiled with HIP-CPU
 function(add_hipcpu_executable name)
   # Forward all parameters to add_executable
   add_executable(${ARGV})
   
   # Perform additional actions
-  target_link_libraries(${name} PRIVATE TBB::tbb)
-  target_include_directories(${name} PRIVATE 
-								"../thirdparty/HIP-CPU/include/")
+  target_link_libraries(${name} PRIVATE hip_cpu_rt::hip_cpu_rt)
 endfunction()
 
 add_subdirectory(openmp)
