@@ -30,6 +30,8 @@ config.*
 .deps
 .dirstamp
 
+build/
+
 cuda/saxpy.cpp
 
 thirdparty/HIPIFYdist/
