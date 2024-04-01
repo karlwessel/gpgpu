@@ -7,5 +7,7 @@ add_subdirectory(openmp)
 
 add_subdirectory(opencl)
 
+add_subdirectory(hip)
+
 
 
