@@ -3,7 +3,7 @@
 	url = https://github.com/ROCm-Developer-Tools/HIP-CPU.git
 [submodule "thirdparty/HIPIFY"]
 	path = thirdparty/HIPIFY
-	url = git@github.com:ROCm/HIPIFY.git
+	url = git@github.com:karlwessel/HIPIFY.git
 [submodule "thirdparty/chipStar"]
 	path = thirdparty/chipStar
 	url = git@github.com:CHIP-SPV/chipStar.git
